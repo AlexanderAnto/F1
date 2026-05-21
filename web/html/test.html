@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+
+    <!-- TU CSS -->
+    <link rel="stylesheet" href="../css/gp-select.css">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="../Data/img/iconoApp.png">
+
+    <style>
+        /* TEXO EXTRA PARA LAS CARDS */
+
+        .card p {
+            margin: 4px 0;
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+
+        .card span {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+    </style>
+
+</head>
+
+<body id="bgm">
+
+    <!-- HEADER -->
+    <header class="topbar">
+
+        <h1>Grand Prix</h1>
+
+        <div class="sesion">
+
+            <div class="contenedorI">
+                <img src="../Data/img/btn_Admin.png" alt="Usuario">
+            </div>
+
+            <ul class="menu">
+                <h2 id="userName"></h2>
+                <li>Ajustes</li>
+                <li id="cerrerSecion">Cerrar sesión</li>
+            </ul>
+
+        </div>
+
+    </header>
+
+    <!-- CONTENEDOR -->
+    <div class="selectorAction">
+
+        <div class="fila" id="contenedorGP">
+
+            <!-- CARDS DINÁMICAS -->
+
+        </div>
+
+    </div>
+
+    <script src="../js/gp-select.js"></script>
+    <script>
+        const boton = document.querySelector('.contenedorI');
+        const menu = document.querySelector('.menu');
+
+        boton.addEventListener('click', (e) => {
+
+            e.stopPropagation();
+            menu.classList.toggle('activo');
+
+        });
+
+        document.addEventListener('click', (e) => {
+
+            if (!menu.contains(e.target) && !boton.contains(e.target)) {
+
+                menu.classList.remove('activo');
+
+            }
+
+        });
+
+        // =========================
+        // CERRAR SESIÓN
+        // =========================
+
+        document.getElementById("cerrerSecion")
+            .addEventListener("click", () => {
+
+                window.location.href = "../index.html";
+
+            });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Gradas</title>
+    <link rel="stylesheet" href="../css/admin-common.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="../Data/img/iconoApp.png">
+</head>
+<body>
+
+    <button type="button" class="btn-fondo"></button>
+
+    <form id="gradaForm">
+        <h1>Agregar Grada</h1>
+        <div class="form-group">
+            <label>Nombre de la Grada:</label>
+            <input type="text" id="name_grada" required placeholder="grada nombre"> 
+        </div>
+        <div class="form-group">
+            <label>Color</label>
+            <select name="color-grada" id="color-grada">
+                <option value="">seleccione un Color de Grada</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Precio</label>
+            <input type="number" name="precio-grada" id="precio-grada">
+        </div>
+        <button type="submit">Agregar Grada</button>
+    </form>
+
+    <div class="poop">
+        <div class="poop-content">
+            <h2>¿DESEA SALIR DE ESTA VENTANA?</h2>
+            <button id="yes">SI</button>
+            <button id="no">NO</button>
+        </div>
+    </div>
+    <script type="module" src="../js/city-page.js"></script>
+</body>
+</html>
