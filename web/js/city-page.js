@@ -14,7 +14,7 @@ forms.addEventListener(
 
         try {
             const response =
-                await fetch('http://localhost:3000/api/gradas',
+                await fetch('f1-backend-t4mn.onrender.com/api/gradas',
                     {
                         method: 'POST',
 

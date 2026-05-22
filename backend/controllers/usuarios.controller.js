@@ -12,24 +12,13 @@ const obtenerUsuarios = async (req, res) => {
 
 const crearUsuario = async (req, res) => {
     try {
-        const {
-            nombre, apellido, correo, telefono,
-            direccion, pais, password_usuario
-        } = req.body;
-
+        const { nombre, apellido, correo, telefono, direccion, pais, password_usuario } = req.body;
         const passwordHash = await bcrypt.hash(password_usuario, 10);
-
-        const sql = `
-            INSERT INTO usuario
-            (nombre, apellido, correo, rol, telefono, direccion, pais, password_usuario)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        `;
-
-        const [result] = await conexion.query(sql, [
-            nombre, apellido, correo, 'user',
-            telefono, direccion, pais, passwordHash
-        ]);
-
+        const [result] = await conexion.query(
+            `INSERT INTO usuario (nombre, apellido, correo, rol, telefono, direccion, pais, password_usuario)
+             VALUES (?, ?, ?, 'user', ?, ?, ?, ?)`,
+            [nombre, apellido, correo, telefono, direccion, pais, passwordHash]
+        );
         res.json({ mensaje: 'Usuario creado', id: result.insertId });
     } catch (error) {
         res.status(500).json({ error: error.message });
