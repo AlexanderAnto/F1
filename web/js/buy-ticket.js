@@ -37,6 +37,9 @@ async function cargarGP() {
 
         // INSERTAR GP
 
+        //mensaje
+        
+
         selectGP.innerHTML = `
 
             <option value="${gp.id_gp}">
