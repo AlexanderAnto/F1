@@ -1,44 +1,62 @@
-const conexion = require('../config/db');
+const conexion =
+    require('../config/db');
 
 const gpModel =
     require('../models/gp.model');
-const obtenerGP = async (req, res) => {
+
+
+// ==========================
+// OBTENER TODOS
+// ==========================
+
+const obtenerGP =
+    async (req, res) => {
 
     try {
 
-        const [rows] = await conexion.query(`
-            SELECT
-                gp.*,
-                l.pais_evento,
-                l.pista_carrera
-            FROM gran_premio gp
-            INNER JOIN lugar l
-            ON gp.id_lugar = l.id_lugar
-            WHERE gp.esta_Eliminado = false
-        `);
+        const [rows] =
+            await conexion.query(`
+                SELECT
+                    gp.*,
+                    l.pais_evento,
+                    l.pista_carrera
+                FROM gran_premio gp
+                INNER JOIN lugar l
+                ON gp.id_lugar = l.id_lugar
+                WHERE gp.esta_Eliminado = false
+            `);
 
         res.json(rows);
 
     } catch (error) {
-gp.controller.js
 
         res.status(500).json(error);
     }
 };
 
-const crearGP = async (req, res) => {
+
+// ==========================
+// CREAR GP
+// ==========================
+
+const crearGP =
+    async (req, res) => {
 
     try {
 
         const {
+
             nombre_gp,
             id_lugar,
             fecha_evento,
             hora_evento,
             maxima_Asistencia
+
         } = req.body;
 
-        const [result] = await conexion.query(`
+        const [result] =
+            await conexion.query(
+            `
             INSERT INTO gran_premio(
                 nombre_gp,
                 id_lugar,
@@ -47,18 +65,23 @@ const crearGP = async (req, res) => {
                 maxima_Asistencia
             )
             VALUES(?,?,?,?,?)
-        `,
-        [
-            nombre_gp,
-            id_lugar,
-            fecha_evento,
-            hora_evento,
-            maxima_Asistencia
-        ]);
+            `,
+            [
+                nombre_gp,
+                id_lugar,
+                fecha_evento,
+                hora_evento,
+                maxima_Asistencia
+            ]
+        );
 
         res.json({
-            mensaje: 'Gran Premio creado',
-            id: result.insertId
+
+            mensaje:
+                'Gran Premio creado',
+
+            id:
+                result.insertId
         });
 
     } catch (error) {
@@ -66,6 +89,12 @@ const crearGP = async (req, res) => {
         res.status(500).json(error);
     }
 };
+
+
+// ==========================
+// OBTENER POR ID
+// ==========================
+
 const obtenerGPporID =
     async (req, res) => {
 
@@ -74,13 +103,9 @@ const obtenerGPporID =
         const { id } =
             req.params;
 
-        console.log(id);
-
         const gp =
             await gpModel
             .obtenerGPporID(id);
-
-        console.log(gp);
 
         res.json(gp);
 
@@ -98,7 +123,10 @@ const obtenerGPporID =
         });
     }
 };
+
+
 module.exports = {
+
     obtenerGP,
     crearGP,
     obtenerGPporID
