@@ -31,8 +31,7 @@ const conexion =
         conn.release();
     } catch (err) {
         console.error('❌ Error conectando a la BD:', err.message);
-        process.exit(1);
+        // No detengas el proceso, solo registra
     }
 })();
-
 module.exports = conexion;
