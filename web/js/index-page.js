@@ -5,9 +5,9 @@ document.getElementById("login-form").addEventListener("submit", async function 
   const password = document.getElementById("password").value;
 
   if (username === "admin" && password === "12345") {
-    window.location.href = "html/select-admin.html";
+    window.location.href = "web/html/select-admin.html";
   } else if (username === "cliente" && password === "12345" ) {
-    window.location.href = "html/gp-selector.html";
+    window.location.href = "web/html/gp-selector.html";
   } else {
     alert("Usuario o contraseña incorrectos");
   }
