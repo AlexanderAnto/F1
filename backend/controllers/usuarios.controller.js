@@ -1,83 +1,39 @@
 const conexion = require('../config/db');
 const bcrypt = require('bcrypt');
 
-const obtenerUsuarios = (req, res) => {
-
-    const sql = 'SELECT * FROM usuario';
-
-    conexion.query(sql, (err, results) => {
-
-        if (err) {
-            return res.status(500).json(err);
-        }
-
-        res.json(results);
-    });
+const obtenerUsuarios = async (req, res) => {
+    try {
+        const [rows] = await conexion.query('SELECT * FROM usuario');
+        res.json(rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 };
 
 const crearUsuario = async (req, res) => {
-
     try {
-
         const {
-            nombre,
-            apellido,
-            correo,
-            telefono,
-            direccion,
-            pais,
-            password_usuario
+            nombre, apellido, correo, telefono,
+            direccion, pais, password_usuario
         } = req.body;
 
         const passwordHash = await bcrypt.hash(password_usuario, 10);
 
         const sql = `
             INSERT INTO usuario
-            (
-                nombre,
-                apellido,
-                correo,
-                rol,
-                telefono,
-                direccion,
-                pais,
-                password_usuario
-            )
+            (nombre, apellido, correo, rol, telefono, direccion, pais, password_usuario)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         `;
 
-        conexion.query(
-            sql,
-            [
-                nombre,
-                apellido,
-                correo,
-                'user',
-                telefono,
-                direccion,
-                pais,
-                passwordHash
-            ],
-            (err, result) => {
+        const [result] = await conexion.query(sql, [
+            nombre, apellido, correo, 'user',
+            telefono, direccion, pais, passwordHash
+        ]);
 
-                if (err) {
-                    return res.status(500).json(err);
-                }
-
-                res.json({
-                    mensaje: 'Usuario creado',
-                    id: result.insertId
-                });
-            }
-        );
-
+        res.json({ mensaje: 'Usuario creado', id: result.insertId });
     } catch (error) {
-
-        res.status(500).json(error);
+        res.status(500).json({ error: error.message });
     }
 };
 
-module.exports = {
-    obtenerUsuarios,
-    crearUsuario
-};
+module.exports = { obtenerUsuarios, crearUsuario };

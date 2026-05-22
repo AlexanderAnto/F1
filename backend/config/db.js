@@ -24,7 +24,15 @@ const conexion =
 
         queueLimit: 0
     });
-
-console.log('MySQL conectado');
+(async () => {
+    try {
+        const conn = await conexion.getConnection();
+        console.log('✅ Base de datos conectada');
+        conn.release();
+    } catch (err) {
+        console.error('❌ Error conectando a la BD:', err.message);
+        process.exit(1);
+    }
+})();
 
 module.exports = conexion;
