@@ -8,6 +8,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const path = require('path');
+app.use(express.static(path.join(__dirname, '..')));   // Sirve toda la raíz del proyecto
+
 const usuarioRoutes = require('./routes/usuario.routes');
 
 app.use('/api/usuarios', usuarioRoutes);

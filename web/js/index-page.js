@@ -15,5 +15,5 @@ document.getElementById("login-form").addEventListener("submit", async function 
 
 document.getElementById("add-button").addEventListener("click", async function (e) {
   e.preventDefault();
-   window.location.href = "html/new-user.html";
+   window.location.href =  "web/html/new-user.html";
 });
