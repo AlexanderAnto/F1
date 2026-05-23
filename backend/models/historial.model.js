@@ -7,66 +7,60 @@ const conexion =
 // ==========================
 
 const obtenerHistorial =
-    async (id_usuario = null) => {
-
-    let query =
-    `
-    SELECT
-
-        h.id_historial,
-        h.id_usuario,
-        h.id_boleto,
-        h.id_tipoPago,
-        h.monto_pagado,
-        h.fecha_compra,
-        h.estado_pago,
-
-        u.nombre,
-
-        gp.nombre_gp,
-
-        b.id_asiento
-
-    FROM historial h
-
-    INNER JOIN usuario u
-        ON h.id_usuario =
-        u.id_usuario
-
-    INNER JOIN boleto b
-        ON h.id_boleto =
-        b.id_boleto
-
-    INNER JOIN gran_premio gp
-        ON b.id_gp =
-        gp.id_gp
-    `;
-
-    let valores = [];
-
-    // ==========================
-    // FILTRAR USUARIO
-    // ==========================
-
-    if (id_usuario) {
-
-        query += `
-            WHERE h.id_usuario = ?
-        `;
-
-        valores.push(id_usuario);
-    }
-
-    query += `
-        ORDER BY
-        h.fecha_compra DESC
-    `;
+    async () => {
 
     const [rows] =
         await conexion.query(
-            query,
-            valores
-        );
+        `
+        SELECT
+
+            h.id_historial,
+            h.id_usuario,
+            h.id_boleto,
+            h.id_tipoPago,
+            h.monto_pagado,
+            h.fecha_compra,
+            h.estado_pago,
+
+            u.nombre,
+
+            gp.nombre_gp,
+
+            gr.nombre_grada AS grada,
+
+            CONCAT(
+                'Fila ',
+                a.fila,
+                ' - Asiento ',
+                a.numero_asiento
+            ) AS asiento
+
+        FROM historial h
+
+        INNER JOIN usuario u
+            ON h.id_usuario =
+            u.id_usuario
+
+        INNER JOIN boleto b
+            ON h.id_boleto =
+            b.id_boleto
+
+        INNER JOIN gran_premio gp
+            ON b.id_gp =
+            gp.id_gp
+
+        INNER JOIN asiento a
+            ON b.id_asiento =
+            a.id_asiento
+
+        INNER JOIN grada gr
+            ON a.id_grada =
+            gr.id_grada
+
+        ORDER BY
+            h.fecha_compra DESC
+        `
+    );
 
     return rows;
 };
