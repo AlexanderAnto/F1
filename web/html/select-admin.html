@@ -19,7 +19,7 @@
 
         <ul class="menu">
             <h2 id="userName"></h2>
-            <li>Ajustes</li>
+            <li id="ajustes">Ajustes</li>
             <li id="cerrerSecion">Cerrar sesión</li>
         </ul>
     </div>
@@ -180,6 +180,19 @@
                 "../../index.html";
         }
     );
+
+ document.getElementById(
+        "ajustes"
+    ).addEventListener(
+        "click",
+        () => {
+
+
+            window.location.href =
+                "profile.html";
+        }
+    );
+
 
 </script>
 </body>

@@ -82,7 +82,7 @@ document.querySelector(
 
 
 // ==========================
-// CARGAR DATOS USUARIO
+// CARGAR DATOS
 // ==========================
 
 function cargarPerfil() {
@@ -173,7 +173,10 @@ form.addEventListener(
 
         console.log(resultado);
 
+
+        // ==========================
         // ACTUALIZAR LOCALSTORAGE
+        // ==========================
 
         const usuarioActualizado = {
 
@@ -222,6 +225,30 @@ async function cargarMetodos() {
         await response.json();
 
         tbody.innerHTML = '';
+
+        // SI NO HAY METODOS
+
+        if (
+            metodos.length === 0
+        ) {
+
+            tbody.innerHTML =
+            `
+            <tr>
+
+                <td colspan="5">
+
+                    No hay métodos registrados
+
+                </td>
+
+            </tr>
+            `;
+
+            return;
+        }
+
+        // MOSTRAR METODOS
 
         metodos.forEach(metodo => {
 
