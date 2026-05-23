@@ -46,6 +46,11 @@ const usuario =
         usuarioGuardado
     );
 
+console.log(
+    'Usuario localStorage:',
+    usuario
+);
+
 
 // =========================
 // CARGAR HISTORIAL
@@ -61,23 +66,40 @@ async function cargarHistorial() {
         const pagos =
             await response.json();
 
-        console.log(pagos);
+        console.log(
+            'Pagos API:',
+            pagos
+        );
 
         tabla.innerHTML = "";
 
 
+        // =========================
         // FILTRAR POR USUARIO
+        // =========================
 
         const historialUsuario =
             pagos.filter(
                 pago =>
 
-                    pago.id_usuario ===
-                    usuario.id_usuario
+                    Number(
+                        pago.id_usuario
+                    )
+                    ===
+                    Number(
+                        usuario.id_usuario
+                    )
             );
 
+        console.log(
+            'Historial Usuario:',
+            historialUsuario
+        );
 
+
+        // =========================
         // VALIDAR HISTORIAL
+        // =========================
 
         if (
             historialUsuario.length === 0
@@ -98,7 +120,9 @@ async function cargarHistorial() {
         }
 
 
+        // =========================
         // MOSTRAR DATOS
+        // =========================
 
         historialUsuario.forEach(
             pago => {

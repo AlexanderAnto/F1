@@ -1,12 +1,38 @@
-const express = require('express');
-const router = express.Router();
+const express =
+    require('express');
+
+const router =
+    express.Router();
 
 const {
+
     obtenerHistorial,
     crearHistorial
-} = require('../controllers/historial.controller');
 
-router.get('/', obtenerHistorial);
-router.post('/', crearHistorial);
+} = require(
+    '../controllers/historial.controller'
+);
 
-module.exports = router;
+
+// ==========================
+// OBTENER
+// ==========================
+
+router.get(
+    '/',
+    obtenerHistorial
+);
+
+
+// ==========================
+// CREAR
+// ==========================
+
+router.post(
+    '/',
+    crearHistorial
+);
+
+
+module.exports =
+    router;
