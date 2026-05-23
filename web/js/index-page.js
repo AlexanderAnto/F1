@@ -1,5 +1,7 @@
+
+
 const API =
-    "https://f1-backend-t4mn.onrender.com/api/usuarios";
+    "https://f1-backend-t4mn.onrender.com/api/usuarios/login";
 
 
 // ==========================
@@ -27,27 +29,32 @@ document.getElementById(
         try {
 
             const response =
-                await fetch(API);
+                await fetch(API, {
 
-            const usuarios =
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        correo,
+                        password
+                    })
+                });
+
+            const resultado =
                 await response.json();
 
-            // BUSCAR USUARIO
+            // ERROR
 
-            const usuario =
-                usuarios.find(
-                    (u) =>
-
-                        u.correo === correo &&
-                        u.password_usuario === password
-                );
-
-            // VALIDAR
-
-            if (!usuario) {
+            if (!response.ok) {
 
                 alert(
-                    "Correo o contraseña incorrectos"
+                    resultado.mensaje
                 );
 
                 return;
@@ -56,14 +63,19 @@ document.getElementById(
             // GUARDAR SESIÓN
 
             localStorage.setItem(
+
                 "usuario",
-                JSON.stringify(usuario)
+
+                JSON.stringify(
+                    resultado.usuario
+                )
             );
 
-            // REDIRECCIÓN SEGÚN ROL
+            // REDIRECCIONAR
 
             if (
-                usuario.rol === "Admin"
+                resultado.usuario.rol ===
+                "Admin"
             ) {
 
                 window.location.href =
@@ -85,7 +97,6 @@ document.getElementById(
         }
     }
 );
-
 
 // ==========================
 // REGISTRO

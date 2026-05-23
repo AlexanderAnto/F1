@@ -55,9 +55,24 @@ const crearUsuario =
     return result;
 };
 
+const buscarPorCorreo =
+    async (correo) => {
 
+    const [rows] =
+        await conexion.query(
+        `
+        SELECT *
+        FROM usuario
+        WHERE correo = ?
+        `,
+        [correo]
+    );
+
+    return rows[0];
+};
 module.exports = {
 
     obtenerUsuarios,
-    crearUsuario
+    crearUsuario, 
+    buscarPorCorreo
 };

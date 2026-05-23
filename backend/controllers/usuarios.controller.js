@@ -165,10 +165,86 @@ const crearAdmin =
     }
 };
 
+const loginUsuario =
+    async (req, res) => {
 
+    try {
+
+        const {
+            correo,
+            password
+        } = req.body;
+
+        // BUSCAR USUARIO
+
+        const usuario =
+            await usuarioModel
+            .buscarPorCorreo(
+                correo
+            );
+
+        // VALIDAR USUARIO
+
+        if (!usuario) {
+
+            return res.status(401)
+            .json({
+
+                mensaje:
+                    'Correo incorrecto'
+            });
+        }
+
+        // VALIDAR PASSWORD
+
+        const passwordCorrecto =
+            await bcrypt.compare(
+                password,
+                usuario.password_usuario
+            );
+
+        if (!passwordCorrecto) {
+
+            return res.status(401)
+            .json({
+
+                mensaje:
+                    'Contraseña incorrecta'
+            });
+        }
+
+        // NO ENVIAR PASSWORD
+
+        delete usuario.password_usuario;
+
+        // LOGIN EXITOSO
+
+        res.json({
+
+            mensaje:
+                'Login correcto',
+
+            usuario
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+
+            mensaje:
+                'Error servidor',
+
+            error:
+                error.message
+        });
+    }
+};
 module.exports = {
 
     obtenerUsuarios,
     crearUsuario,
-    crearAdmin
+    crearAdmin,
+    loginUsuario
 };

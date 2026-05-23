@@ -8,7 +8,8 @@ const {
 
     obtenerUsuarios,
     crearUsuario,
-    crearAdmin
+    crearAdmin,
+    loginUsuario
 
 } = require(
     '../controllers/usuarios.controller'
@@ -28,6 +29,9 @@ router.post(
     '/admin',
     crearAdmin
 );
-
+router.post(
+    '/login',
+    loginUsuario
+);
 module.exports =
     router;
