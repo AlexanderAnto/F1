@@ -1,3 +1,7 @@
+// ==========================
+// tipoPago.controller.js
+// ==========================
+
 const tipoPagoModel =
     require('../models/tipoPago.model');
 
@@ -40,7 +44,7 @@ const obtenerTiposPago =
 
 
 // ==========================
-// CREAR METODO PAGO
+// CREAR
 // ==========================
 
 const crearTipoPago =
@@ -126,8 +130,10 @@ const cambiarMetodoPreferido =
     try {
 
         const {
+
             id_usuario,
             id_tipoPago
+
         } = req.body;
 
         await tipoPagoModel
@@ -159,7 +165,7 @@ const cambiarMetodoPreferido =
 
 
 // ==========================
-// ELIMINAR METODO
+// ELIMINAR
 // ==========================
 
 const eliminarTipoPago =

@@ -1,13 +1,20 @@
-const conexion = require('../config/db');
+// ==========================
+// tipoPago.model.js
+// ==========================
+
+const conexion =
+    require('../config/db');
 
 
 // ==========================
-// OBTENER TIPOS DE PAGO
+// OBTENER TODOS
 // ==========================
 
-const obtenerTiposPago = async (id_usuario = null) => {
+const obtenerTiposPago =
+    async (id_usuario = null) => {
 
-    let query = `
+    let query =
+    `
         SELECT *
         FROM tipoPago
         WHERE esta_Eliminado = false
@@ -26,7 +33,7 @@ const obtenerTiposPago = async (id_usuario = null) => {
         valores.push(id_usuario);
     }
 
-    // ORDENAR EL PREFERIDO PRIMERO
+    // PREFERIDO PRIMERO
 
     query += `
         ORDER BY por_defecto DESC
@@ -43,10 +50,11 @@ const obtenerTiposPago = async (id_usuario = null) => {
 
 
 // ==========================
-// CREAR METODO DE PAGO
+// CREAR
 // ==========================
 
-const crearTipoPago = async (datos) => {
+const crearTipoPago =
+    async (datos) => {
 
     const {
 
@@ -62,8 +70,7 @@ const crearTipoPago = async (datos) => {
 
 
     // ==========================
-    // SI ES PREFERIDO
-    // QUITAR EL ANTERIOR
+    // QUITAR PREFERIDO ANTERIOR
     // ==========================
 
     if (por_defecto) {
@@ -80,13 +87,14 @@ const crearTipoPago = async (datos) => {
 
 
     // ==========================
-    // INSERTAR NUEVO
+    // INSERTAR
     // ==========================
 
     const [result] =
         await conexion.query(
         `
-        INSERT INTO tipoPago(
+        INSERT INTO tipoPago
+        (
             id_usuario,
             metodo,
             proveedor,
@@ -95,7 +103,10 @@ const crearTipoPago = async (datos) => {
             titular_cuenta,
             por_defecto
         )
-        VALUES(?,?,?,?,?,?,?)
+        VALUES
+        (
+            ?,?,?,?,?,?,?
+        )
         `,
         [
             id_usuario,
@@ -113,7 +124,7 @@ const crearTipoPago = async (datos) => {
 
 
 // ==========================
-// OBTENER METODO PREFERIDO
+// OBTENER PREFERIDO
 // ==========================
 
 const obtenerMetodoPreferido =
@@ -138,7 +149,7 @@ const obtenerMetodoPreferido =
 
 
 // ==========================
-// CAMBIAR METODO PREFERIDO
+// CAMBIAR PREFERIDO
 // ==========================
 
 const cambiarMetodoPreferido =
@@ -146,6 +157,31 @@ const cambiarMetodoPreferido =
         id_usuario,
         id_tipoPago
     ) => {
+
+    // VALIDAR
+
+    const [metodo] =
+        await conexion.query(
+        `
+        SELECT *
+        FROM tipoPago
+        WHERE
+            id_tipoPago = ?
+            AND id_usuario = ?
+            AND esta_Eliminado = false
+        `,
+        [
+            id_tipoPago,
+            id_usuario
+        ]
+    );
+
+    if (metodo.length === 0) {
+
+        throw new Error(
+            'Método inválido'
+        );
+    }
 
     // QUITAR TODOS
 
@@ -158,7 +194,7 @@ const cambiarMetodoPreferido =
         [id_usuario]
     );
 
-    // ACTIVAR NUEVO
+    // NUEVO PREFERIDO
 
     const [result] =
         await conexion.query(

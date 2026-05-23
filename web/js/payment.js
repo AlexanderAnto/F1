@@ -1,3 +1,7 @@
+// ==========================
+// payment.js COMPLETO CORREGIDO
+// ==========================
+
 const API =
     'https://f1-backend-t4mn.onrender.com/api';
 
@@ -25,6 +29,18 @@ const precio =
 
 
 // ==========================
+// USUARIO LOGUEADO
+// ==========================
+
+const usuario =
+    JSON.parse(
+        localStorage.getItem(
+            'usuario'
+        )
+    );
+
+
+// ==========================
 // ELEMENTOS
 // ==========================
 
@@ -49,7 +65,7 @@ const form =
 // ==========================
 
 resumen.innerHTML =
-    `
+`
 Cantidad:
 ${cantidad}
 
@@ -70,44 +86,50 @@ async function cargarMetodos() {
 
         const response =
             await fetch(
-                `${API}/tiposPago`
+                `${API}/tiposPago?id_usuario=${usuario.id_usuario}`
             );
 
         const metodos =
             await response.json();
 
-        const usuarioMetodos =
-            metodos.filter(
-                m =>
-                    m.id_usuario == 1
-            );
+        metodoPago.innerHTML =
+        `
+            <option value="">
+                Seleccione método
+            </option>
+        `;
 
-        usuarioMetodos.forEach(metodo => {
+        metodos.forEach(metodo => {
 
             metodoPago.innerHTML +=
-                `
-                <option
-                    value="${metodo.id_tipoPago}"
+            `
+            <option
+                value="${metodo.id_tipoPago}"
 
-                    ${metodo.preferido
+                ${metodo.por_defecto
                     ? 'selected'
                     : ''
                 }
-                >
+            >
 
-                    ${metodo.metodo}
-                    -
-                    ${metodo.proveedor}
+                ${metodo.metodo}
+                -
+                ${metodo.proveedor}
 
-                </option>
+            </option>
             `;
         });
 
     } catch (error) {
 
         console.log(error);
+
+        alert(
+            'Error cargando métodos'
+        );
     }
 }
+
 
 // ==========================
 // PAGAR
@@ -120,6 +142,20 @@ form.addEventListener(
         e.preventDefault();
 
         try {
+
+            // ==========================
+            // VALIDAR METODO
+            // ==========================
+
+            if (!metodoPago.value) {
+
+                alert(
+                    'Seleccione un método de pago'
+                );
+
+                return;
+            }
+
 
             // ==========================
             // CREAR BOLETO
@@ -149,14 +185,9 @@ form.addEventListener(
                 await responseBoleto.json();
 
 
-
-
-            const usuario =
-                JSON.parse(
-                    localStorage.getItem(
-                        'usuario'
-                    )
-                );
+            // ==========================
+            // CAMBIAR PREFERIDO
+            // ==========================
 
             await fetch(
                 `${API}/tiposPago/preferido`,
@@ -178,8 +209,10 @@ form.addEventListener(
                     })
                 }
             );
+
+
             // ==========================
-            // HISTORIAL
+            // CREAR HISTORIAL
             // ==========================
 
             await fetch(
@@ -194,7 +227,8 @@ form.addEventListener(
 
                     body: JSON.stringify({
 
-                        id_usuario: 1,
+                        id_usuario:
+                            usuario.id_usuario,
 
                         id_boleto:
                             boleto.id,
@@ -212,18 +246,18 @@ form.addEventListener(
             );
 
             alert(
-                'Pago realizado'
+                'Pago realizado correctamente'
             );
 
             window.location.href =
-                '../pages/index.html';
+                '../index.html';
 
         } catch (error) {
 
             console.log(error);
 
             alert(
-                'Error al pagar'
+                'Error al procesar el pago'
             );
         }
     });
