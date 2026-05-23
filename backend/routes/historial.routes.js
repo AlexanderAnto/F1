@@ -15,7 +15,7 @@ const {
 
 
 // ==========================
-// OBTENER
+// OBTENER HISTORIAL
 // ==========================
 
 router.get(
@@ -25,7 +25,7 @@ router.get(
 
 
 // ==========================
-// CREAR
+// CREAR HISTORIAL
 // ==========================
 
 router.post(

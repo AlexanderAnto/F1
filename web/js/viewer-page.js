@@ -1,4 +1,7 @@
-import { initModal } from './script-aux.js';
+import { initModal }
+from './script-aux.js';
+
+
 // ==========================
 // API
 // ==========================
@@ -25,8 +28,23 @@ async function cargarUsuarios() {
 
     try {
 
+        // ==========================
+        // SOLO USERS
+        // ==========================
+
         const response =
-            await fetch(API);
+            await fetch(
+                `${API}?rol=user`
+            );
+
+        // VALIDAR RESPONSE
+
+        if (!response.ok) {
+
+            throw new Error(
+                'Error API'
+            );
+        }
 
         const usuarios =
             await response.json();
@@ -35,12 +53,32 @@ async function cargarUsuarios() {
 
         tabla.innerHTML = '';
 
-        usuarios
-        .filter(
-            usuario =>
-                usuario.rol === 'user'
-        )
-        .forEach(usuario => {
+        // ==========================
+        // VALIDAR VACIO
+        // ==========================
+
+        if (usuarios.length === 0) {
+
+            tabla.innerHTML =
+            `
+            <tr>
+
+                <td colspan="8">
+                    No hay usuarios registrados
+                </td>
+
+            </tr>
+            `;
+
+            return;
+        }
+
+
+        // ==========================
+        // MOSTRAR USUARIOS
+        // ==========================
+
+        usuarios.forEach(usuario => {
 
             tabla.innerHTML +=
             `
@@ -87,17 +125,18 @@ async function cargarUsuarios() {
         console.log(error);
 
         tabla.innerHTML =
-            `
-            <tr>
+        `
+        <tr>
 
-                <td colspan="8">
-                    Error al cargar usuarios
-                </td>
+            <td colspan="8">
+                Error al cargar usuarios
+            </td>
 
-            </tr>
-            `;
+        </tr>
+        `;
     }
 }
+
 
 // ==========================
 // INICIAR

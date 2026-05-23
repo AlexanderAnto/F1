@@ -11,9 +11,15 @@ const obtenerHistorial =
 
     try {
 
+        const {
+            id_usuario
+        } = req.query;
+
         const historial =
             await historialModel
-            .obtenerHistorial();
+            .obtenerHistorial(
+                id_usuario
+            );
 
         res.json(historial);
 

@@ -60,41 +60,22 @@ async function cargarHistorial() {
 
     try {
 
+
         const response =
-            await fetch(API);
-
-        const pagos =
-            await response.json();
-
-        console.log(
-            'Pagos API:',
-            pagos
-        );
+            await fetch(
+                `${API}?id_usuario=${usuario.id_usuario}`
+            );
 
         tabla.innerHTML = "";
+
+        const historialUsuario =
+            await response.json();
 
 
         // =========================
         // FILTRAR POR USUARIO
         // =========================
 
-        const historialUsuario =
-            pagos.filter(
-                pago =>
-
-                    Number(
-                        pago.id_usuario
-                    )
-                    ===
-                    Number(
-                        usuario.id_usuario
-                    )
-            );
-
-        console.log(
-            'Historial Usuario:',
-            historialUsuario
-        );
 
 
         // =========================
@@ -128,7 +109,7 @@ async function cargarHistorial() {
             pago => {
 
                 tabla.innerHTML +=
-                `
+                    `
                 <tr>
 
                     <td>
@@ -145,8 +126,8 @@ async function cargarHistorial() {
 
                     <td>
                         ${new Date(
-                            pago.fecha_compra
-                        ).toLocaleString()}
+                        pago.fecha_compra
+                    ).toLocaleString()}
                     </td>
 
                     <td>
