@@ -300,7 +300,7 @@ form.addEventListener(
             setTimeout(() => {
 
                 window.location.href =
-                    '../index.html';
+                    '../../index.html';
 
             }, 1500);
 

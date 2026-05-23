@@ -207,3 +207,103 @@ tr:hover {
     width: 90%;
   }
 }
+
+/* =========================
+   FILTROS
+========================= */
+
+.filter-container{
+
+    width: 95%;
+    margin: 20px auto;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* =========================
+   SELECTS
+========================= */
+
+.filter-container select{
+
+    padding: 10px 15px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #1e1e1e;
+    color: white;
+
+    min-width: 220px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: 0.3s;
+}
+
+.filter-container select:focus{
+
+    box-shadow:
+        0 0 10px #ff1801;
+}
+
+
+/* =========================
+   BOTONES
+========================= */
+
+#btnFiltrar,
+#btnMostrarTodos{
+
+    padding: 10px 20px;
+
+    border: none;
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+
+/* BOTON FILTRAR */
+
+#btnFiltrar{
+
+    background: #ff1801;
+    color: white;
+}
+
+#btnFiltrar:hover{
+
+    background: #d91400;
+
+    transform: scale(1.05);
+}
+
+
+/* BOTON MOSTRAR TODO */
+
+#btnMostrarTodos{
+
+    background: #333;
+    color: white;
+}
+
+#btnMostrarTodos:hover{
+
+    background: #555;
+
+    transform: scale(1.05);
+}

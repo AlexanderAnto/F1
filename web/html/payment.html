@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Pago
+    </title>
+
+    <link rel="stylesheet"
+        href="../css/admin-common.css">
+
+</head>
+
+<body>
+
+    <form id="paymentForm">
+
+        <h1>
+            Método de Pago
+        </h1>
+
+        <!-- METODO -->
+
+        <label>
+            Método
+        </label>
+
+        <select id="metodoPago">
+
+            <option value="">
+                Seleccione método
+            </option>
+
+        </select>
+
+        <br>
+
+        <!-- RESUMEN -->
+
+        <h2>
+            Resumen
+        </h2>
+
+        <p id="resumen"></p>
+
+        <br>
+
+        <button type="submit">
+
+            Confirmar Pago
+
+        </button>
+
+    </form>
+
+    <script
+        type="module"
+        src="../js/payment.js">
+    </script>
+
+</body>
+
+</html>

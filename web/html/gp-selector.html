@@ -44,7 +44,7 @@
 
             <ul class="menu">
                 <h2 id="userName"></h2>
-                <li>Ajustes</li>
+                <li id= "ajustes">Ajustes</li>
                 <li id="cerrerSecion">Cerrar sesión</li>
                 <li id="historial">historial</li>
             </ul>
@@ -192,6 +192,12 @@
             }
         );
 
+        document.getElementById("ajustes").addEventListener(
+            "click",
+            () => {
+                window.location.href = "profile"
+            }
+        )
     </script>
 </body>
 

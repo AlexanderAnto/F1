@@ -1,47 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestionar Boletos</title>
-    <link rel="stylesheet" href="../css/admin-common.css">
-    <link rel="icon" type="image/png" sizes="32x32" href="../Data/img/iconoApp.png">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Gestionar Boletos
+    </title>
+
+    <link rel="stylesheet"
+        href="../css/admin-common.css">
+
+    <link rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="../Data/img/iconoApp.png">
+
 </head>
+
 <body>
 
-    <button type="button" class="btn-fondo"></button>
+    <!-- BOTON FONDO -->
 
-    <form id="boletoForm">
-        <h1>Agregar Boleto</h1>
-        <div class="form-group">
-            <label>Precio:</label>
-            <input type="number" id="boletoPrecio" required>
-        </div>
-        <div class="form-group">
-            <label>Color:</label>
-            <select id="selectcolor" required></select>
-        </div>
-        <div class="form-group">
-            <label>Grada:</label>
-            <select id="selectgrada" required></select>
-        </div>
-        <div class="form-group">
-            <label>GP:</label>
-            <select id="selectgp" required></select>
-        </div>
-        <button type="submit">Agregar Boleto</button>
-    </form>
+    <button
+        type="button"
+        class="btn-fondo">
+    </button>
+
+
+    <!-- MODAL -->
 
     <div class="poop">
+
         <div class="poop-content">
-            <h2>¿DESEA SALIR DE ESTA VENTANA?</h2>
-            <button id="yes">SI</button>
-            <button id="no">NO</button>
+
+            <h2>
+                ¿DESEA SALIR DE ESTA VENTANA?
+            </h2>
+
+            <button id="yes">
+                SI
+            </button>
+
+            <button id="no">
+                NO
+            </button>
+
         </div>
+
     </div>
 
-    <h2 style="text-align:center;">Boletos registrados</h2>
 
-    <script type="module" src="../js/ticket-page.js"></script>
+    <!-- TITULO -->
+
+    <h2 class="title-table">
+        Boletos Registrados
+    </h2>
+
+
+    <!-- FILTROS -->
+
+    <div class="filter-container">
+
+
+        <!-- SELECT USUARIO -->
+
+        <select id="filterUser">
+
+            <option value="">
+                Todos los usuarios
+            </option>
+
+        </select>
+
+
+        <!-- SELECT GP -->
+
+        <select id="filterGP">
+
+            <option value="">
+                Todos los GP
+            </option>
+
+        </select>
+
+
+        <!-- BOTONES -->
+
+        <button id="btnFiltrar">
+            Filtrar
+        </button>
+
+        <button id="btnMostrarTodos">
+            Mostrar Todos
+        </button>
+
+    </div>
+
+
+    <!-- TABLA -->
+
+    <div class="table-container">
+
+        <table
+            class="tableUser"
+            id="tablaBoletos">
+
+            <thead>
+
+                <tr>
+
+                    <th>ID Boleto</th>
+                    <th>Usuario</th>
+                    <th>GP</th>
+                    <th>Grada</th>
+                    <th>Asiento</th>
+                    <th>Precio</th>
+                    <th>Fecha Compra</th>
+                    <th>Estado</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="tbodyBoletos">
+
+                <!-- DATOS DINAMICOS -->
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <script type="module"
+        src="../js/ticket-viewer.js">
+    </script>
+
 </body>
+
 </html>

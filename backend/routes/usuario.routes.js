@@ -33,5 +33,6 @@ router.post(
     '/login',
     loginUsuario
 );
+
 module.exports =
     router;

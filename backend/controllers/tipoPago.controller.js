@@ -1,68 +1,206 @@
-const conexion = require('../config/db');
+const tipoPagoModel =
+    require('../models/tipoPago.model');
 
-const obtenerTiposPago = async (req, res) => {
+
+// ==========================
+// OBTENER TODOS
+// ==========================
+
+const obtenerTiposPago =
+    async (req, res) => {
 
     try {
 
-        const [rows] = await conexion.query(`
-            SELECT *
-            FROM tipoPago
-            WHERE esta_Eliminado = false
-        `);
+        const {
+            id_usuario
+        } = req.query;
 
-        res.json(rows);
+        const tiposPago =
+            await tipoPagoModel
+            .obtenerTiposPago(
+                id_usuario
+            );
+
+        res.json(tiposPago);
 
     } catch (error) {
 
-        res.status(500).json(error);
+        console.log(error);
+
+        res.status(500).json({
+
+            mensaje:
+                'Error servidor',
+
+            error:
+                error.message
+        });
     }
 };
 
-const crearTipoPago = async (req, res) => {
+
+// ==========================
+// CREAR METODO PAGO
+// ==========================
+
+const crearTipoPago =
+    async (req, res) => {
+
+    try {
+
+        const result =
+            await tipoPagoModel
+            .crearTipoPago(
+                req.body
+            );
+
+        res.json({
+
+            mensaje:
+                'Método de pago creado',
+
+            id:
+                result.insertId
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+
+            mensaje:
+                'Error servidor',
+
+            error:
+                error.message
+        });
+    }
+};
+
+
+// ==========================
+// OBTENER PREFERIDO
+// ==========================
+
+const obtenerMetodoPreferido =
+    async (req, res) => {
+
+    try {
+
+        const {
+            id_usuario
+        } = req.params;
+
+        const metodo =
+            await tipoPagoModel
+            .obtenerMetodoPreferido(
+                id_usuario
+            );
+
+        res.json(metodo);
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+
+            mensaje:
+                'Error servidor',
+
+            error:
+                error.message
+        });
+    }
+};
+
+
+// ==========================
+// CAMBIAR PREFERIDO
+// ==========================
+
+const cambiarMetodoPreferido =
+    async (req, res) => {
 
     try {
 
         const {
             id_usuario,
-            metodo,
-            proveedor,
-            ultimos_digitos,
-            fecha_vencimiento,
-            titular_cuenta
+            id_tipoPago
         } = req.body;
 
-        const [result] = await conexion.query(`
-            INSERT INTO tipoPago(
+        await tipoPagoModel
+            .cambiarMetodoPreferido(
                 id_usuario,
-                metodo,
-                proveedor,
-                ultimos_digitos,
-                fecha_vencimiento,
-                titular_cuenta
-            )
-            VALUES(?,?,?,?,?,?)
-        `,
-        [
-            id_usuario,
-            metodo,
-            proveedor,
-            ultimos_digitos,
-            fecha_vencimiento,
-            titular_cuenta
-        ]);
+                id_tipoPago
+            );
 
         res.json({
-            mensaje: 'Método de pago creado',
-            id: result.insertId
+
+            mensaje:
+                'Método preferido actualizado'
         });
 
     } catch (error) {
 
-        res.status(500).json(error);
+        console.log(error);
+
+        res.status(500).json({
+
+            mensaje:
+                'Error servidor',
+
+            error:
+                error.message
+        });
     }
 };
 
+
+// ==========================
+// ELIMINAR METODO
+// ==========================
+
+const eliminarTipoPago =
+    async (req, res) => {
+
+    try {
+
+        const {
+            id
+        } = req.params;
+
+        await tipoPagoModel
+            .eliminarTipoPago(id);
+
+        res.json({
+
+            mensaje:
+                'Método eliminado'
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+
+            mensaje:
+                'Error servidor',
+
+            error:
+                error.message
+        });
+    }
+};
+
+
 module.exports = {
+
     obtenerTiposPago,
-    crearTipoPago
+    crearTipoPago,
+    obtenerMetodoPreferido,
+    cambiarMetodoPreferido,
+    eliminarTipoPago
 };

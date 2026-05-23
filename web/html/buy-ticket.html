@@ -4,44 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/ticket-buy.css">
-    <title>Combre Boleto</title>
+    <title>Comprar Boleto</title>
 </head>
-<body>
-   
-    <form action="" method="get">
-        <label for="gp"> GP </label>
-        <select name="gp" id="gp">
-            <option value="">Selecciona un Gp</option>
 
+<body>
+
+    <form id="buyForm">
+
+        <!-- GP -->
+        <label for="gp">GP</label>
+
+        <select name="gp" id="gp">
+            <option value="">
+                Selecciona un GP
+            </option>
         </select>
-<br>
-        <label for="grada"> Grada</label>
+
+        <br>
+
+        <!-- GRADA -->
+        <label for="grada">Grada</label>
+
         <select name="grada" id="grada">
-             <option value="">Selecciona un Grada</option>
+            <option value="">
+                Selecciona una Grada
+            </option>
         </select>
-<br>  
-        <label for="aciento"> Aciento</label>
-        <select name="aciento" id="aciento">
-             <option value="">Selecciona un Aciento</option>
+
+        <br>
+
+        <!-- ASIENTO -->
+        <label for="asiento">Asiento</label>
+
+        <select name="asiento" id="asiento">
+            <option value="">
+                Selecciona un Asiento
+            </option>
         </select>
-<br>
-        <label for="precio">Precio</label>
-        <label id="precioBoleto"></label>
-<br>
+
+        <br>
+
+        <!-- PRECIO -->
+        <label>Precio:</label>
+
+        <span id="precioBoleto">
+            $0
+        </span>
+
+        <br>
+
+        <!-- CANTIDAD -->
         <button type="button" id="btnMin">
-            <img src="../Data/img/btn_menos.png" alt="">
+            -
         </button>
-        <input type="number" id="Cantbolet">
-         <button type="button" id="btnMax">
-            <img src="../Data/img/btn_mas.png" alt="">
-         </button>
-<br>
-        <button type="submit">Comprar</button>
-        
+
+        <input
+            type="number"
+            id="Cantbolet"
+            value="1"
+            min="1"
+        >
+
+        <button type="button" id="btnMax">
+            +
+        </button>
+
+        <br>
+
+        <button type="submit">
+            Comprar
+        </button>
+
     </form>
+
     <script
-    type="module"
-    src="../js/buy-ticket.js"
-></script>
+        type="module"
+        src="../js/buy-ticket.js">
+    </script>
+
 </body>
 </html>

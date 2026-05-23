@@ -1,7 +1,7 @@
 
 
 const API =
-    "https://f1-backend-t4mn.onrender.com/api/usuarios/login";
+  "https://f1-backend-t4mn.onrender.com/api/usuarios/login";
 
 
 // ==========================
@@ -9,93 +9,93 @@ const API =
 // ==========================
 
 document.getElementById(
-    "login-form"
+  "login-form"
 ).addEventListener(
-    "submit",
-    async function (e) {
+  "submit",
+  async function (e) {
 
-        e.preventDefault();
+    e.preventDefault();
 
-        const correo =
-            document.getElementById(
-                "username"
-            ).value;
+    const correo =
+      document.getElementById(
+        "username"
+      ).value;
 
-        const password =
-            document.getElementById(
-                "password"
-            ).value;
+    const password =
+      document.getElementById(
+        "password"
+      ).value;
 
-        try {
+    try {
 
-            const response =
-                await fetch(API, {
+      const response =
+        await fetch(API, {
 
-                    method: "POST",
+          method: "POST",
 
-                    headers: {
+          headers: {
 
-                        "Content-Type":
-                            "application/json"
-                    },
+            "Content-Type":
+              "application/json"
+          },
 
-                    body: JSON.stringify({
+          body: JSON.stringify({
 
-                        correo,
-                        password
-                    })
-                });
+            correo,
+            password
+          })
+        });
 
-            const resultado =
-                await response.json();
+      const resultado =
+        await response.json();
 
-            // ERROR
+      // ERROR
 
-            if (!response.ok) {
+      if (!response.ok) {
 
-                alert(
-                    resultado.mensaje
-                );
+        alert(
+          resultado.mensaje
+        );
 
-                return;
-            }
+        return;
+      }
 
-            // GUARDAR SESIÓN
+      // GUARDAR SESIÓN
 
-            localStorage.setItem(
+      localStorage.setItem(
 
-                "usuario",
+        "usuario",
 
-                JSON.stringify(
-                    resultado.usuario
-                )
-            );
+        JSON.stringify(
+          resultado.usuario
+        )
+      );
 
-            // REDIRECCIONAR
+      // REDIRECCIONAR
 
-            if (
-                resultado.usuario.rol ===
-                "Admin"
-            ) {
+      if (
+        resultado.usuario.rol ===
+        "Admin"
+      ) {
 
-                window.location.href =
-                    "web/html/select-admin.html";
+        window.location.href =
+          "web/html/select-admin.html";
 
-            } else {
+      } else {
 
-                window.location.href =
-                    "web/html/gp-selector.html";
-            }
+        window.location.href =
+          "web/html/gp-selector.html";
+      }
 
-        } catch (error) {
+    } catch (error) {
 
-            console.log(error);
+      console.log(error);
 
-            alert(
-                "Error de conexión"
-            );
-        }
+      alert(
+        "Error de conexión"
+      );
     }
+  }
 );
 
 // ==========================
@@ -103,14 +103,14 @@ document.getElementById(
 // ==========================
 
 document.getElementById(
-    "add-button"
+  "add-button"
 ).addEventListener(
-    "click",
-    async function (e) {
+  "click",
+  async function (e) {
 
-        e.preventDefault();
+    e.preventDefault();
 
-        window.location.href =
-            "web/html/new-user.html";
-    }
+    window.location.href =
+      "web/html/new-user.html";
+  }
 );
