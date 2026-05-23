@@ -8,9 +8,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0">
 
-    <title>
-        Pago
-    </title>
+    <title>Pago</title>
 
     <link rel="stylesheet"
         href="../css/admin-common.css">
@@ -21,15 +19,11 @@
 
     <form id="paymentForm">
 
-        <h1>
-            Método de Pago
-        </h1>
+        <h1>Método de Pago</h1>
 
         <!-- METODO -->
 
-        <label>
-            Método
-        </label>
+        <label>Método</label>
 
         <select id="metodoPago">
 
@@ -37,24 +31,57 @@
                 Seleccione método
             </option>
 
+            <option value="Tarjeta de Crédito">
+                Tarjeta de Crédito
+            </option>
+
+            <option value="Tarjeta de Débito">
+                Tarjeta de Débito
+            </option>
+
+            <option value="PayPal">
+                PayPal
+            </option>
+
+            <option value="Efectivo">
+                Efectivo
+            </option>
+
         </select>
+
+        <br><br>
+
+        <!-- CAMPOS DINAMICOS -->
+
+        <div id="camposPago"></div>
 
         <br>
 
+        <!-- GUARDAR -->
+
+        <label>
+
+            <input
+                type="checkbox"
+                id="guardarMetodo"
+            >
+
+            Guardar como método preferido
+
+        </label>
+
+        <br><br>
+
         <!-- RESUMEN -->
 
-        <h2>
-            Resumen
-        </h2>
+        <h2>Resumen</h2>
 
         <p id="resumen"></p>
 
         <br>
 
         <button type="submit">
-
             Confirmar Pago
-
         </button>
 
     </form>

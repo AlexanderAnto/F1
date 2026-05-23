@@ -3,7 +3,7 @@ const API =
 
 
 // ==========================
-// PARAMS
+// PARAMETROS
 // ==========================
 
 const params =
@@ -23,9 +23,6 @@ const cantidad =
 const precio =
     params.get('precio');
 
-const id_usuario =
-    params.get('id_usuario');
-
 
 // ==========================
 // USUARIO
@@ -40,21 +37,6 @@ const usuario =
 
 
 // ==========================
-// VALIDAR LOGIN
-// ==========================
-
-if (!usuario) {
-
-    alert(
-        'Debe iniciar sesión'
-    );
-
-    window.location.href =
-        '../pages/login.html';
-}
-
-
-// ==========================
 // ELEMENTOS
 // ==========================
 
@@ -63,9 +45,19 @@ const metodoPago =
         'metodoPago'
     );
 
+const camposPago =
+    document.getElementById(
+        'camposPago'
+    );
+
 const resumen =
     document.getElementById(
         'resumen'
+    );
+
+const guardarMetodo =
+    document.getElementById(
+        'guardarMetodo'
     );
 
 const form =
@@ -91,58 +83,119 @@ $${precio * cantidad}
 
 
 // ==========================
-// CARGAR METODOS
+// CAMBIAR FORMULARIO
 // ==========================
 
-async function cargarMetodos() {
+metodoPago.addEventListener(
+    'change',
+    () => {
 
-    try {
+        const metodo =
+            metodoPago.value;
 
-        const response =
-            await fetch(
-                `${API}/tiposPago?id_usuario=${id_usuario}`
-            );
+        camposPago.innerHTML = '';
 
-        const metodos =
-            await response.json();
+        // ==========================
+        // TARJETAS
+        // ==========================
 
-        metodoPago.innerHTML =
-        `
-            <option value="">
-                Seleccione método
-            </option>
-        `;
+        if (
+            metodo === 'Tarjeta de Crédito'
+            ||
+            metodo === 'Tarjeta de Débito'
+        ) {
 
-        metodos.forEach(metodo => {
-
-            metodoPago.innerHTML +=
+            camposPago.innerHTML =
             `
-            <option
-                value="${metodo.id_tipoPago}"
+                <label>
+                    Banco
+                </label>
 
-                ${metodo.por_defecto
-                    ? 'selected'
-                    : ''
-                }
-            >
+                <input
+                    type="text"
+                    id="proveedor"
+                    required
+                >
 
-                ${metodo.metodo}
-                -
-                ${metodo.proveedor}
+                <br><br>
 
-            </option>
+                <label>
+                    Número Tarjeta
+                </label>
+
+                <input
+                    type="text"
+                    id="numeroTarjeta"
+                    maxlength="16"
+                    required
+                >
+
+                <br><br>
+
+                <label>
+                    Fecha Vencimiento
+                </label>
+
+                <input
+                    type="text"
+                    id="fechaVencimiento"
+                    placeholder="MM/YY"
+                    required
+                >
+
+                <br><br>
+
+                <label>
+                    Titular
+                </label>
+
+                <input
+                    type="text"
+                    id="titular"
+                    required
+                >
             `;
-        });
+        }
 
-    } catch (error) {
+        // ==========================
+        // PAYPAL
+        // ==========================
 
-        console.log(error);
+        else if (
+            metodo === 'PayPal'
+        ) {
 
-        alert(
-            'Error cargando métodos'
-        );
+            camposPago.innerHTML =
+            `
+                <label>
+                    Correo PayPal
+                </label>
+
+                <input
+                    type="email"
+                    id="paypalCorreo"
+                    required
+                >
+            `;
+        }
+
+        // ==========================
+        // EFECTIVO
+        // ==========================
+
+        else if (
+            metodo === 'Efectivo'
+        ) {
+
+            camposPago.innerHTML =
+            `
+                <p>
+                    Pago en efectivo al recoger boletos
+                </p>
+            `;
+        }
     }
-}
+);
 
 
 // ==========================
@@ -157,15 +210,123 @@ form.addEventListener(
 
         try {
 
-            if (!metodoPago.value) {
+            let id_tipoPago = null;
 
-                alert(
-                    'Seleccione un método de pago'
-                );
+            // ==========================
+            // GUARDAR METODO
+            // ==========================
 
-                return;
+            if (
+                guardarMetodo.checked
+            ) {
+
+                let proveedor = '';
+                let ultimos = null;
+                let vencimiento = null;
+                let titular = null;
+
+                // TARJETAS
+
+                if (
+                    metodoPago.value ===
+                    'Tarjeta de Crédito'
+                    ||
+                    metodoPago.value ===
+                    'Tarjeta de Débito'
+                ) {
+
+                    const numero =
+                        document.getElementById(
+                            'numeroTarjeta'
+                        ).value;
+
+                    proveedor =
+                        document.getElementById(
+                            'proveedor'
+                        ).value;
+
+                    ultimos =
+                        numero.slice(-4);
+
+                    vencimiento =
+                        document.getElementById(
+                            'fechaVencimiento'
+                        ).value;
+
+                    titular =
+                        document.getElementById(
+                            'titular'
+                        ).value;
+                }
+
+                // PAYPAL
+
+                if (
+                    metodoPago.value ===
+                    'PayPal'
+                ) {
+
+                    proveedor =
+                        document.getElementById(
+                            'paypalCorreo'
+                        ).value;
+                }
+
+                // EFECTIVO
+
+                if (
+                    metodoPago.value ===
+                    'Efectivo'
+                ) {
+
+                    proveedor =
+                        'Pago presencial';
+                }
+
+                // CREAR METODO
+
+                const responseMetodo =
+                    await fetch(
+                        `${API}/tiposPago`,
+                        {
+                            method: 'POST',
+
+                            headers: {
+                                'Content-Type':
+                                    'application/json'
+                            },
+
+                            body: JSON.stringify({
+
+                                id_usuario:
+                                    usuario.id_usuario,
+
+                                metodo:
+                                    metodoPago.value,
+
+                                proveedor,
+
+                                ultimos_digitos:
+                                    ultimos,
+
+                                fecha_vencimiento:
+                                    vencimiento,
+
+                                titular_cuenta:
+                                    titular,
+
+                                por_defecto:
+                                    true
+                            })
+                        }
+                    );
+
+                const metodoCreado =
+                    await responseMetodo.json();
+
+                id_tipoPago =
+                    metodoCreado.id;
             }
-
 
             // ==========================
             // CREAR BOLETO
@@ -185,8 +346,7 @@ form.addEventListener(
                         body: JSON.stringify({
 
                             id_gp,
-                            id_asiento,
-                            id_usuario
+                            id_asiento
                         })
                     }
                 );
@@ -196,32 +356,7 @@ form.addEventListener(
 
 
             // ==========================
-            // CAMBIAR PREFERIDO
-            // ==========================
-
-            await fetch(
-                `${API}/tiposPago/preferido`,
-                {
-                    method: 'PUT',
-
-                    headers: {
-                        'Content-Type':
-                            'application/json'
-                    },
-
-                    body: JSON.stringify({
-
-                        id_usuario,
-
-                        id_tipoPago:
-                            metodoPago.value
-                    })
-                }
-            );
-
-
-            // ==========================
-            // HISTORIAL
+            // CREAR HISTORIAL
             // ==========================
 
             await fetch(
@@ -236,13 +371,13 @@ form.addEventListener(
 
                     body: JSON.stringify({
 
-                        id_usuario,
+                        id_usuario:
+                            usuario.id_usuario,
 
                         id_boleto:
                             boleto.id,
 
-                        id_tipoPago:
-                            metodoPago.value,
+                        id_tipoPago,
 
                         monto_pagado:
                             precio * cantidad,
@@ -254,7 +389,7 @@ form.addEventListener(
             );
 
             alert(
-                'Pago realizado correctamente'
+                'Pago realizado'
             );
 
             window.location.href =
@@ -265,14 +400,8 @@ form.addEventListener(
             console.log(error);
 
             alert(
-                'Error al procesar pago'
+                'Error al pagar'
             );
         }
-    });
-
-
-// ==========================
-// INICIAR
-// ==========================
-
-cargarMetodos();
+    }
+);
