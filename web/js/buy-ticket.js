@@ -29,7 +29,7 @@ async function cargarGP() {
 
         const response =
             await fetch(
-                `http://localhost:3000/api/gp/${id_gp}`
+                `https://f1-backend-t4mn.onrender.com/api/gp/${id_gp}`
             );
 
         const gp =
