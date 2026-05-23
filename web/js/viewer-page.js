@@ -35,7 +35,12 @@ async function cargarUsuarios() {
 
         tabla.innerHTML = '';
 
-        usuarios.forEach(usuario => {
+        usuarios
+        .filter(
+            usuario =>
+                usuario.rol === 'user'
+        )
+        .forEach(usuario => {
 
             tabla.innerHTML +=
             `
@@ -47,11 +52,30 @@ async function cargarUsuarios() {
 
                 <td>
                     ${usuario.nombre}
+                </td>
+
+                <td>
                     ${usuario.apellido}
                 </td>
 
                 <td>
                     ${usuario.correo}
+                </td>
+
+                <td>
+                    ${usuario.rol}
+                </td>
+
+                <td>
+                    ${usuario.telefono}
+                </td>
+
+                <td>
+                    ${usuario.direccion}
+                </td>
+
+                <td>
+                    ${usuario.pais}
                 </td>
 
             </tr>
@@ -66,7 +90,7 @@ async function cargarUsuarios() {
             `
             <tr>
 
-                <td colspan="3">
+                <td colspan="8">
                     Error al cargar usuarios
                 </td>
 
@@ -74,7 +98,6 @@ async function cargarUsuarios() {
             `;
     }
 }
-
 
 // ==========================
 // INICIAR

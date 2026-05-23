@@ -46,6 +46,7 @@
                 <h2 id="userName"></h2>
                 <li>Ajustes</li>
                 <li id="cerrerSecion">Cerrar sesión</li>
+                <li id="historial">historial</li>
             </ul>
 
         </div>
@@ -65,36 +66,132 @@
 
     <script src="../js/gp-select.js"></script>
     <script>
-        const boton = document.querySelector('.contenedorI');
-        const menu = document.querySelector('.menu');
 
-        boton.addEventListener('click', (e) => {
+        // =========================
+        // ELEMENTOS
+        // =========================
 
-            e.stopPropagation();
-            menu.classList.toggle('activo');
+        const boton =
+            document.querySelector(
+                '.contenedorI'
+            );
 
-        });
+        const menu =
+            document.querySelector(
+                '.menu'
+            );
 
-        document.addEventListener('click', (e) => {
+        const userName =
+            document.getElementById(
+                'userName'
+            );
 
-            if (!menu.contains(e.target) && !boton.contains(e.target)) {
 
-                menu.classList.remove('activo');
+        // =========================
+        // OBTENER SESIÓN
+        // =========================
+
+        const usuarioGuardado =
+            localStorage.getItem(
+                "usuario"
+            );
+
+
+        // =========================
+        // VALIDAR SESIÓN
+        // =========================
+
+        if (!usuarioGuardado) {
+
+            window.location.href =
+                "../../index.html";
+
+        } else {
+
+            const usuario =
+                JSON.parse(
+                    usuarioGuardado
+                );
+
+            // MOSTRAR NOMBRE
+
+            userName.textContent =
+                `${usuario.nombre} ${usuario.apellido}`;
+        }
+
+
+        // =========================
+        // MENU
+        // =========================
+
+        boton.addEventListener(
+            'click',
+            (e) => {
+
+                e.stopPropagation();
+
+                menu.classList.toggle(
+                    'activo'
+                );
 
             }
+        );
 
-        });
+
+        document.addEventListener(
+            'click',
+            (e) => {
+
+                if (
+                    !menu.contains(e.target) &&
+                    !boton.contains(e.target)
+                ) {
+
+                    menu.classList.remove(
+                        'activo'
+                    );
+                }
+
+            }
+        );
+
 
         // =========================
         // CERRAR SESIÓN
         // =========================
 
-        document.getElementById("cerrerSecion")
-            .addEventListener("click", () => {
+        document.getElementById(
+            "cerrerSecion"
+        ).addEventListener(
+            "click",
+            () => {
 
-                window.location.href = "../../index.html";
+                // ELIMINAR SESIÓN
 
-            });
+                localStorage.removeItem(
+                    "usuario"
+                );
+
+                sessionStorage.clear();
+
+                // REDIRECCIONAR
+
+                window.location.href =
+                    "../../index.html";
+            }
+        );
+
+        document.getElementById(
+            "historial"
+        ).addEventListener(
+            "click",
+            () => {
+
+                window.location.href =
+                    "historial.html";
+            }
+        );
+
     </script>
 </body>
 

@@ -18,7 +18,7 @@
         </div>
 
         <ul class="menu">
-            <h2>Administrador</h2>
+            <h2 id="userName"></h2>
             <li>Ajustes</li>
             <li id="cerrerSecion">Cerrar sesión</li>
         </ul>
@@ -66,27 +66,122 @@
     </div>
 
     <script>
-        const boton = document.querySelector('.contenedorI');
-        const menu = document.querySelector('.menu');
 
-        // Abrir/cerrar menú
-        boton.addEventListener('click', (e) => {
+    // =========================
+    // ELEMENTOS
+    // =========================
+
+    const boton =
+        document.querySelector(
+            '.contenedorI'
+        );
+
+    const menu =
+        document.querySelector(
+            '.menu'
+        );
+
+    const userName =
+        document.getElementById(
+            'userName'
+        );
+
+
+    // =========================
+    // OBTENER SESIÓN
+    // =========================
+
+    const usuarioGuardado =
+        localStorage.getItem(
+            "usuario"
+        );
+
+
+    // =========================
+    // VALIDAR SESIÓN
+    // =========================
+
+    if (!usuarioGuardado) {
+
+        window.location.href =
+            "../../index.html";
+
+    } else {
+
+        const usuario =
+            JSON.parse(
+                usuarioGuardado
+            );
+
+        // MOSTRAR NOMBRE
+
+        userName.textContent =
+            `${usuario.nombre} ${usuario.apellido}`;
+    }
+
+
+    // =========================
+    // MENU
+    // =========================
+
+    boton.addEventListener(
+        'click',
+        (e) => {
+
             e.stopPropagation();
-            menu.classList.toggle('activo');
-        });
 
-        // Cerrar al hacer click fuera
-        document.addEventListener('click', (e) => {
-            if (!menu.contains(e.target) && !boton.contains(e.target)) {
-                menu.classList.remove('activo');
+            menu.classList.toggle(
+                'activo'
+            );
+
+        }
+    );
+
+
+    document.addEventListener(
+        'click',
+        (e) => {
+
+            if (
+                !menu.contains(e.target) &&
+                !boton.contains(e.target)
+            ) {
+
+                menu.classList.remove(
+                    'activo'
+                );
             }
-        });
-        document.getElementById("cerrerSecion").addEventListener("click",(e) => {
-            window.location.href = "../../index.html";
-        } )
 
-    </script>
+        }
+    );
 
+
+    // =========================
+    // CERRAR SESIÓN
+    // =========================
+
+    document.getElementById(
+        "cerrerSecion"
+    ).addEventListener(
+        "click",
+        () => {
+
+            // ELIMINAR SESIÓN
+
+            localStorage.removeItem(
+                "usuario"
+            );
+
+            sessionStorage.clear();
+
+            // REDIRECCIONAR
+
+            window.location.href =
+                "../../index.html";
+        }
+    );
+
+</script>
 </body>
 
 </html>

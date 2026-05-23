@@ -97,9 +97,9 @@ async function loadCountries() {
         countries.sort(
             (a, b) =>
 
-            a.name.common.localeCompare(
-                b.name.common
-            )
+                a.name.common.localeCompare(
+                    b.name.common
+                )
         );
 
         countries.forEach(country => {
@@ -283,6 +283,8 @@ form.addEventListener(
 
             // EXITO
 
+            // EXITO
+
             messageContainer.textContent =
                 'Usuario creado correctamente';
 
@@ -293,6 +295,14 @@ form.addEventListener(
                 '#155724';
 
             form.reset();
+
+            // REDIRECCION AL LOGIN
+            setTimeout(() => {
+
+                window.location.href =
+                    '../index.html';
+
+            }, 1500);
 
         } catch (error) {
 
