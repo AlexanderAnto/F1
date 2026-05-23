@@ -270,7 +270,6 @@ btnMax.addEventListener(
 // ==========================
 // COMPRAR
 // ==========================
-
 form.addEventListener(
     'submit',
     async (e) => {
@@ -292,13 +291,16 @@ form.addEventListener(
             return;
         }
 
-        // REDIRECCIONAR A PAYMENT
+        // URL LIMPIA SIN ESPACIOS
 
-        window.location.href =
+        const url =
             `payment.html?id_gp=${id_gp}&id_asiento=${id_asiento}&cantidad=${cantidad}&precio=${precioActual}&id_usuario=${usuario.id_usuario}`;
+
+        console.log(url);
+
+        window.location.href = url;
     }
 );
-
 
 // ==========================
 // INICIAR
