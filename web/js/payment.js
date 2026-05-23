@@ -71,7 +71,7 @@ const form =
 // ==========================
 
 resumen.innerHTML =
-`
+    `
 Cantidad:
 ${cantidad}
 
@@ -106,7 +106,7 @@ metodoPago.addEventListener(
         ) {
 
             camposPago.innerHTML =
-            `
+                `
                 <label>
                     Banco
                 </label>
@@ -166,7 +166,7 @@ metodoPago.addEventListener(
         ) {
 
             camposPago.innerHTML =
-            `
+                `
                 <label>
                     Correo PayPal
                 </label>
@@ -188,7 +188,7 @@ metodoPago.addEventListener(
         ) {
 
             camposPago.innerHTML =
-            `
+                `
                 <p>
                     Pago en efectivo al recoger boletos
                 </p>
@@ -358,7 +358,14 @@ form.addEventListener(
             // ==========================
             // CREAR HISTORIAL
             // ==========================
+            if (!id_tipoPago) {
 
+                alert(
+                    'Seleccione o registre un método de pago'
+                );
+
+                return;
+            }
             await fetch(
                 `${API}/historial`,
                 {
@@ -375,15 +382,16 @@ form.addEventListener(
                             usuario.id_usuario,
 
                         id_boleto:
-                            boleto.id,
+                            boleto.id_boleto || boleto.id,
 
-                        id_tipoPago,
+                        id_tipoPago:
+                            id_tipoPago,
 
                         monto_pagado:
                             precio * cantidad,
 
                         estado_pago:
-                            'Pagado'
+                            'Completado'
                     })
                 }
             );
