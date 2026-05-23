@@ -1,7 +1,3 @@
-// ==========================
-// payment.js COMPLETO CORREGIDO
-// ==========================
-
 const API =
     'https://f1-backend-t4mn.onrender.com/api';
 
@@ -27,9 +23,12 @@ const cantidad =
 const precio =
     params.get('precio');
 
+const id_usuario =
+    params.get('id_usuario');
+
 
 // ==========================
-// USUARIO LOGUEADO
+// USUARIO
 // ==========================
 
 const usuario =
@@ -38,6 +37,21 @@ const usuario =
             'usuario'
         )
     );
+
+
+// ==========================
+// VALIDAR LOGIN
+// ==========================
+
+if (!usuario) {
+
+    alert(
+        'Debe iniciar sesión'
+    );
+
+    window.location.href =
+        '../pages/login.html';
+}
 
 
 // ==========================
@@ -86,7 +100,7 @@ async function cargarMetodos() {
 
         const response =
             await fetch(
-                `${API}/tiposPago?id_usuario=${usuario.id_usuario}`
+                `${API}/tiposPago?id_usuario=${id_usuario}`
             );
 
         const metodos =
@@ -143,10 +157,6 @@ form.addEventListener(
 
         try {
 
-            // ==========================
-            // VALIDAR METODO
-            // ==========================
-
             if (!metodoPago.value) {
 
                 alert(
@@ -175,8 +185,8 @@ form.addEventListener(
                         body: JSON.stringify({
 
                             id_gp,
-                            id_asiento
-
+                            id_asiento,
+                            id_usuario
                         })
                     }
                 );
@@ -201,8 +211,7 @@ form.addEventListener(
 
                     body: JSON.stringify({
 
-                        id_usuario:
-                            usuario.id_usuario,
+                        id_usuario,
 
                         id_tipoPago:
                             metodoPago.value
@@ -212,7 +221,7 @@ form.addEventListener(
 
 
             // ==========================
-            // CREAR HISTORIAL
+            // HISTORIAL
             // ==========================
 
             await fetch(
@@ -227,8 +236,7 @@ form.addEventListener(
 
                     body: JSON.stringify({
 
-                        id_usuario:
-                            usuario.id_usuario,
+                        id_usuario,
 
                         id_boleto:
                             boleto.id,
@@ -257,7 +265,7 @@ form.addEventListener(
             console.log(error);
 
             alert(
-                'Error al procesar el pago'
+                'Error al procesar pago'
             );
         }
     });

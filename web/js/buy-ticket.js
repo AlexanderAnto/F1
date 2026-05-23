@@ -16,6 +16,33 @@ const id_gp =
 
 
 // ==========================
+// USUARIO
+// ==========================
+
+const usuario =
+    JSON.parse(
+        localStorage.getItem(
+            'usuario'
+        )
+    );
+
+
+// ==========================
+// VALIDAR LOGIN
+// ==========================
+
+if (!usuario) {
+
+    alert(
+        'Debe iniciar sesión'
+    );
+
+    window.location.href =
+        '../pages/login.html';
+}
+
+
+// ==========================
 // ELEMENTOS
 // ==========================
 
@@ -184,23 +211,24 @@ selectGrada.addEventListener(
     'change',
     () => {
 
-    const option =
-        selectGrada.options[
-            selectGrada.selectedIndex
-        ];
+        const option =
+            selectGrada.options[
+                selectGrada.selectedIndex
+            ];
 
-    precioActual =
-        Number(
-            option.dataset.precio
+        precioActual =
+            Number(
+                option.dataset.precio
+            );
+
+        precioLabel.textContent =
+            `$${precioActual}`;
+
+        cargarAsientos(
+            selectGrada.value
         );
-
-    precioLabel.textContent =
-        `$${precioActual}`;
-
-    cargarAsientos(
-        selectGrada.value
-    );
-});
+    }
+);
 
 
 // ==========================
@@ -211,26 +239,32 @@ btnMin.addEventListener(
     'click',
     () => {
 
-    let value =
-        Number(cantidadInput.value);
+        let value =
+            Number(
+                cantidadInput.value
+            );
 
-    if (value > 1) {
+        if (value > 1) {
 
-        cantidadInput.value =
-            value - 1;
+            cantidadInput.value =
+                value - 1;
+        }
     }
-});
+);
 
 btnMax.addEventListener(
     'click',
     () => {
 
-    let value =
-        Number(cantidadInput.value);
+        let value =
+            Number(
+                cantidadInput.value
+            );
 
-    cantidadInput.value =
-        value + 1;
-});
+        cantidadInput.value =
+            value + 1;
+    }
+);
 
 
 // ==========================
@@ -241,34 +275,30 @@ form.addEventListener(
     'submit',
     async (e) => {
 
-    e.preventDefault();
+        e.preventDefault();
 
-    const id_asiento =
-        selectAsiento.value;
+        const id_asiento =
+            selectAsiento.value;
 
-    const cantidad =
-        cantidadInput.value;
+        const cantidad =
+            cantidadInput.value;
 
-    if (!id_asiento) {
+        if (!id_asiento) {
 
-        alert(
-            'Seleccione un asiento'
-        );
+            alert(
+                'Seleccione un asiento'
+            );
 
-        return;
+            return;
+        }
+
+        // REDIRECCIONAR A PAYMENT
+
+        window.location.href =
+            `payment.html?id_gp=${id_gp}&id_asiento=${id_asiento}&cantidad=${cantidad}&precio=${precioActual}&id_usuario=${usuario.id_usuario}`;
     }
+);
 
-    // REDIRECCIONAR A PAGOS
-
-    window.location.href =
-    `
-    payment.html
-    ?id_gp=${id_gp}
-    &id_asiento=${id_asiento}
-    &cantidad=${cantidad}
-    &precio=${precioActual}
-    `;
-});
 
 // ==========================
 // INICIAR
