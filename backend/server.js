@@ -18,7 +18,7 @@ app.use(express.json());
 
 app.use(
     '/api/usuarios',
-    require('./routes/usuarios.routes')
+    require('./routes/usuario.routes')
 );
 
 app.use(
