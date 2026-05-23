@@ -9,6 +9,9 @@ const conexion =
         host:
             process.env.DB_HOST,
 
+        port:
+            process.env.DB_PORT,
+
         user:
             process.env.DB_USER,
 
@@ -24,14 +27,28 @@ const conexion =
 
         queueLimit: 0
     });
+
 (async () => {
+
     try {
-        const conn = await conexion.getConnection();
-        console.log('✅ Base de datos conectada');
+
+        const conn =
+            await conexion.getConnection();
+
+        console.log(
+            '✅ Base de datos conectada'
+        );
+
         conn.release();
+
     } catch (err) {
-        console.error('❌ Error conectando a la BD:', err.message);
-        // No detengas el proceso, solo registra
+
+        console.error(
+            '❌ Error BD:',
+            err.message
+        );
     }
+
 })();
+
 module.exports = conexion;

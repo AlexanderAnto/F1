@@ -21,13 +21,15 @@ const selectGP =
 // CARGAR GP
 // ==========================
 
+let max = 0;
+
 async function cargarGP() {
 
     try {
 
         const response =
             await fetch(
-                'https://f1-backend-t4mn.onrender.com/api/gp/${id_gp}'
+                `http://localhost:3000/api/gp/${id_gp}`
             );
 
         const gp =
@@ -39,6 +41,7 @@ async function cargarGP() {
 
         //mensaje
         
+        max = gp.maxima_Asistencia;
 
         selectGP.innerHTML = `
 
@@ -63,4 +66,22 @@ async function cargarGP() {
 // INICIAR
 // ==========================
 
+let contBoleto = document.getElementById('Cantbolet');
+let btnMin = document.getElementById('btnMin');
+let btnMax = document.getElementById('btnMax');
+
+btnMin.addEventListener('click', () => {
+    let value = Number(contBoleto.value) || 0;
+
+    if (value > 0) {
+        contBoleto.value = value - 1;
+    }
+});
+
+btnMax.addEventListener('click', () => {
+    let value = Number(contBoleto.value) || 0;
+
+    contBoleto.value = value + 1;
+});
+ 
 cargarGP();

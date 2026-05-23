@@ -14,7 +14,7 @@ forms.addEventListener(
 
         try {
             const response =
-                await fetch('https://f1-backend-t4mn.onrender.com/api/gradas',
+                await fetch('http://localhost:3000/api/gradas',
                     {
                         method: 'POST',
 
@@ -55,7 +55,7 @@ async function cargarColores() {
 
         const response =
             await fetch(
-                'https://f1-backend-t4mn.onrender.com/api/gradas/colores'
+                'http://localhost:3000/api/gradas/colores'
             );
 
         const colores =

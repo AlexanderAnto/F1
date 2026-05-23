@@ -11,9 +11,10 @@ async function cargarGP() {
 
         const response =
             await fetch(
-                'https://f1-backend-t4mn.onrender.com/api/gp'
+                'http://localhost:3000/api/gp'
             );
-
+            console.log("Conectando a DB...");
+            
         // CONVERTIR JSON A OBJETO JS
 
         const gp =
