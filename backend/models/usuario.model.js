@@ -70,9 +70,78 @@ const buscarPorCorreo =
 
     return rows[0];
 };
+
+const actualizarUsuario =
+async (id_usuario, datos) => {
+
+    const {
+
+        nombre,
+        apellido,
+        correo,
+        telefono,
+        direccion,
+        pais,
+        password_usuario
+
+    } = datos;
+
+    let query =
+    `
+    UPDATE usuario
+    SET
+
+        nombre = ?,
+        apellido = ?,
+        correo = ?,
+        telefono = ?,
+        direccion = ?,
+        pais = ?
+    `;
+
+    let valores = [
+
+        nombre,
+        apellido,
+        correo,
+        telefono,
+        direccion,
+        pais
+    ];
+
+    // PASSWORD OPCIONAL
+
+    if (password_usuario) {
+
+        query +=
+        `,
+        password_usuario = ?
+        `;
+
+        valores.push(
+            password_usuario
+        );
+    }
+
+    query +=
+    `
+    WHERE id_usuario = ?
+    `;
+
+    valores.push(id_usuario);
+
+    const [result] =
+    await conexion.query(
+        query,
+        valores
+    );
+
+    return result;
+};
 module.exports = {
 
     obtenerUsuarios,
     crearUsuario, 
-    buscarPorCorreo
+    buscarPorCorreo,
+    actualizarUsuario
 };

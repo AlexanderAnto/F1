@@ -9,7 +9,8 @@ const {
     obtenerUsuarios,
     crearUsuario,
     crearAdmin,
-    loginUsuario
+    loginUsuario,
+    actualizarUsuario
 
 } = require(
     '../controllers/usuarios.controller'
@@ -33,6 +34,9 @@ router.post(
     '/login',
     loginUsuario
 );
-
+router.put(
+    '/:id',
+    actualizarUsuario
+);
 module.exports =
     router;

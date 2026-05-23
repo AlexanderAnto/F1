@@ -1,22 +1,208 @@
+// ==========================
+// API
+// ==========================
+
 const API =
 'https://f1-backend-t4mn.onrender.com/api';
 
 
+// ==========================
 // USUARIO LOGUEADO
+// ==========================
 
- const usuario =
-                JSON.parse(
-                    localStorage.getItem(
-                        'usuario'
-                    )
-                );
+const usuario =
+JSON.parse(
+    localStorage.getItem(
+        'usuario'
+    )
+);
 
+const id_usuario =
+    usuario.id_usuario;
+
+
+// ==========================
+// FORM
+// ==========================
+
+const form =
+document.getElementById(
+    'profileForm'
+);
+
+
+// ==========================
+// INPUTS
+// ==========================
+
+const nombre =
+document.getElementById(
+    'nombre'
+);
+
+const apellido =
+document.getElementById(
+    'apellido'
+);
+
+const correo =
+document.getElementById(
+    'correo'
+);
+
+const telefono =
+document.getElementById(
+    'telefono'
+);
+
+const direccion =
+document.getElementById(
+    'direccion'
+);
+
+const pais =
+document.getElementById(
+    'pais'
+);
+
+const password_usuario =
+document.getElementById(
+    'password_usuario'
+);
+
+
+// ==========================
 // TABLA
+// ==========================
 
 const tbody =
 document.querySelector(
     '#tablaPagos tbody'
 );
+
+
+// ==========================
+// CARGAR DATOS USUARIO
+// ==========================
+
+function cargarPerfil() {
+
+    nombre.value =
+        usuario.nombre || '';
+
+    apellido.value =
+        usuario.apellido || '';
+
+    correo.value =
+        usuario.correo || '';
+
+    telefono.value =
+        usuario.telefono || '';
+
+    direccion.value =
+        usuario.direccion || '';
+
+    pais.value =
+        usuario.pais || '';
+}
+
+
+// ==========================
+// GUARDAR CAMBIOS
+// ==========================
+
+form.addEventListener(
+    'submit',
+    async (e) => {
+
+    e.preventDefault();
+
+    try {
+
+        const body = {
+
+            nombre:
+                nombre.value,
+
+            apellido:
+                apellido.value,
+
+            correo:
+                correo.value,
+
+            telefono:
+                telefono.value,
+
+            direccion:
+                direccion.value,
+
+            pais:
+                pais.value
+        };
+
+        // PASSWORD OPCIONAL
+
+        if (
+            password_usuario.value
+            .trim() !== ''
+        ) {
+
+            body.password_usuario =
+                password_usuario.value;
+        }
+
+
+        const response =
+            await fetch(
+            `${API}/usuarios/${id_usuario}`,
+            {
+                method: 'PUT',
+
+                headers: {
+                    'Content-Type':
+                    'application/json'
+                },
+
+                body: JSON.stringify(
+                    body
+                )
+            });
+
+        const resultado =
+            await response.json();
+
+        console.log(resultado);
+
+        // ACTUALIZAR LOCALSTORAGE
+
+        const usuarioActualizado = {
+
+            ...usuario,
+
+            ...body
+        };
+
+        localStorage.setItem(
+            'usuario',
+
+            JSON.stringify(
+                usuarioActualizado
+            )
+        );
+
+        alert(
+            'Perfil actualizado'
+        );
+
+    } catch (error) {
+
+        console.log(error);
+
+        alert(
+            'Error actualizando perfil'
+        );
+    }
+});
 
 
 // ==========================
@@ -29,21 +215,15 @@ async function cargarMetodos() {
 
         const response =
         await fetch(
-            `${API}/tiposPago`
+            `${API}/tiposPago?id_usuario=${id_usuario}`
         );
 
         const metodos =
         await response.json();
 
-        const filtrados =
-        metodos.filter(
-            m =>
-                m.id_usuario == id_usuario
-        );
-
         tbody.innerHTML = '';
 
-        filtrados.forEach(metodo => {
+        metodos.forEach(metodo => {
 
             tbody.innerHTML +=
             `
@@ -63,7 +243,7 @@ async function cargarMetodos() {
 
                 <td>
                     ${
-                        metodo.preferido
+                        metodo.por_defecto
                         ? 'SI'
                         : 'NO'
                     }
@@ -139,5 +319,7 @@ async function(id_tipoPago) {
 // ==========================
 // INICIAR
 // ==========================
+
+cargarPerfil();
 
 cargarMetodos();

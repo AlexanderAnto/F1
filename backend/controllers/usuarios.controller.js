@@ -241,10 +241,60 @@ const loginUsuario =
         });
     }
 };
+
+const actualizarUsuario =
+async (req, res) => {
+
+    try {
+
+        const { id } =
+            req.params;
+
+        const datos =
+            req.body;
+
+        if (
+            datos.password_usuario
+        ) {
+
+            datos.password_usuario =
+                await bcrypt.hash(
+                    datos.password_usuario,
+                    10
+                );
+        }
+
+        await usuarioModel
+        .actualizarUsuario(
+            id,
+            datos
+        );
+
+        res.json({
+
+            mensaje:
+            'Usuario actualizado'
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+
+            mensaje:
+            'Error servidor',
+
+            error:
+            error.message
+        });
+    }
+};
 module.exports = {
 
     obtenerUsuarios,
     crearUsuario,
     crearAdmin,
-    loginUsuario
+    loginUsuario,
+    actualizarUsuario
 };
