@@ -4,40 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Administradores</title>
+
     <link rel="stylesheet" href="../css/admin-common.css">
-    <link rel="icon" type="image/png" sizes="32x32" href="../Data/img/iconoApp.png">
+
+    <link rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="../Data/img/iconoApp.png">
 </head>
+
 <body>
 
     <button type="button" class="btn-fondo"></button>
 
+    <!-- ========================= -->
+    <!-- FORMULARIO -->
+    <!-- ========================= -->
+
     <form id="adminForm">
+
         <h1>Agregar Administrador</h1>
+
         <div class="form-group">
-            <label>Nombre de Administrador:</label>
-            <input type="text" id="adminNombre" required placeholder="nombre">
+            <label>Nombre:</label>
+
+            <input
+                type="text"
+                id="nombre"
+                required
+                placeholder="Nombre">
         </div>
+
+        <div class="form-group">
+            <label>Apellido:</label>
+
+            <input
+                type="text"
+                id="apellido"
+                required
+                placeholder="Apellido">
+        </div>
+
+        <div class="form-group">
+            <label>Correo:</label>
+
+            <input
+                type="email"
+                id="correo"
+                required
+                placeholder="correo@email.com">
+        </div>
+
+        <div class="form-group">
+            <label>Teléfono:</label>
+
+            <input
+                type="text"
+                id="telefono"
+                required
+                placeholder="Telefono">
+        </div>
+
+        <div class="form-group">
+            <label>Dirección:</label>
+
+            <input
+                type="text"
+                id="direccion"
+                required
+                placeholder="Direccion">
+        </div>
+
+        <div class="form-group">
+            <label>País:</label>
+
+            <select id="paises" required>
+                <option value="">
+                    Selecciona un país
+                </option>
+            </select>
+        </div>
+
         <div class="form-group">
             <label>Contraseña:</label>
-            <input type="password" id="adminPass" required placeholder="contraseña">
+
+            <input
+                type="password"
+                id="password"
+                required
+                placeholder="Contraseña">
         </div>
-        <button type="submit">Agregar Administrador</button>
+
+        <button type="submit">
+            Agregar Administrador
+        </button>
+
     </form>
 
-    <div class="poop">
-        <div class="poop-content">
-            <h2>¿DESEA SALIR DE ESTA VENTANA?</h2>
-            <button id="yes">SI</button>
-            <button id="no">NO</button>
-        </div>
-    </div>
 
-    <h2 style="text-align:center;">Administradores registrados</h2>
+    <!-- ========================= -->
+    <!-- TABLA -->
+    <!-- ========================= -->
+
+    <h2 style="text-align:center;">
+        Administradores registrados
+    </h2>
+
     <table id="adminTable">
-        <thead><tr><th>ID</th><th>Nombre</th></tr></thead>
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Nombre</th>
+
+                <th>Apellido</th>
+
+                <th>Correo</th>
+
+                <th>País</th>
+
+            </tr>
+
+        </thead>
+
         <tbody></tbody>
+
     </table>
 
+
+    <!-- ========================= -->
+    <!-- POPUP -->
+    <!-- ========================= -->
+
+    <div class="poop">
+
+        <div class="poop-content">
+
+            <h2>
+                ¿DESEA SALIR DE ESTA VENTANA?
+            </h2>
+
+            <button id="yes">
+                SI
+            </button>
+
+            <button id="no">
+                NO
+            </button>
+
+        </div>
+
+    </div>
+
     <script type="module" src="../js/admin-profile.js"></script>
+
 </body>
 </html>

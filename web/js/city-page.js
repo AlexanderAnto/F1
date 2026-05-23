@@ -1,75 +1,65 @@
 import { initModal } from './script-aux.js';
 
-const forms = document.getElementById('gradaForm');
+// ==========================
+// CONFIG
+// ==========================
 
-forms.addEventListener(
-    'submit',
-    async (e) => {
-        e.preventDefault();
-        const grada = {
-            nombre_grada: document.getElementById('name_grada').value,
-            color: document.getElementById('color-grada').value,
-            precio: document.getElementById('precio-grada').value
-        };
+const API =
+    'https://f1-backend-t4mn.onrender.com/api/gradas';
 
-        try {
-            const response =
-                await fetch('https://f1-backend-t4mn.onrender.com/api/gradas',
-                    {
-                        method: 'POST',
+const API_COLORES =
+    'https://f1-backend-t4mn.onrender.com/api/gradas/colores';
 
-                        headers: {
-                            'Content-Type':
-                                'application/json'
-                        },
-                        body: JSON.stringify(
-                            grada
-                        )
-                    }
 
-                );
+// ==========================
+// ELEMENTOS HTML
+// ==========================
 
-            const data =
-                await response.json();
-
-            console.log(data);
-
-            alert('Usuario registrado');
-
-        }catch (error) {
-
-            console.log(error);
-        }
-    }
-
-);
+const form =
+    document.getElementById(
+        'gradaForm'
+    );
 
 const selectColor =
     document.getElementById(
         'color-grada'
     );
 
+const tabla =
+    document.querySelector(
+        '#gradaTable tbody'
+    );
+
+
+// ==========================
+// CARGAR COLORES ENUM
+// ==========================
+
 async function cargarColores() {
 
     try {
 
         const response =
-            await fetch(
-                'https://f1-backend-t4mn.onrender.com/api/gradas/colores'
-            );
+            await fetch(API_COLORES);
 
         const colores =
             await response.json();
 
-        console.log(colores);
+        selectColor.innerHTML =
+            `
+            <option value="">
+                Seleccione un color
+            </option>
+            `;
 
         colores.forEach(color => {
 
-            selectColor.innerHTML += `
+            selectColor.innerHTML +=
+                `
                 <option value="${color}">
                     ${color}
                 </option>
-            `;
+                `;
         });
 
     } catch (error) {
@@ -78,6 +68,127 @@ async function cargarColores() {
     }
 }
 
+
+// ==========================
+// CARGAR GRADAS
+// ==========================
+
+async function cargarGradas() {
+
+    try {
+
+        const response =
+            await fetch(API);
+
+        const gradas =
+            await response.json();
+
+        tabla.innerHTML = '';
+
+        gradas.forEach(grada => {
+
+            tabla.innerHTML +=
+                `
+                <tr>
+
+                    <td>
+                        ${grada.id_grada}
+                    </td>
+
+                    <td>
+                        ${grada.nombre_grada}
+                    </td>
+
+                    <td>
+                        ${grada.color}
+                    </td>
+
+                    <td>
+                        $${grada.precio}
+                    </td>
+
+                </tr>
+                `;
+        });
+
+    } catch (error) {
+
+        console.log(error);
+    }
+}
+
+
+// ==========================
+// AGREGAR GRADA
+// ==========================
+
+form.addEventListener(
+    'submit',
+    async (e) => {
+
+        e.preventDefault();
+
+        try {
+
+            const nombre_grada =
+                document.getElementById(
+                    'name_grada'
+                ).value;
+
+            const color =
+                document.getElementById(
+                    'color-grada'
+                ).value;
+
+            const precio =
+                document.getElementById(
+                    'precio-grada'
+                ).value;
+
+            const response =
+                await fetch(API, {
+
+                    method: 'POST',
+
+                    headers: {
+                        'Content-Type':
+                            'application/json'
+                    },
+
+                    body: JSON.stringify({
+
+                        nombre_grada,
+                        color,
+                        precio
+                    })
+                });
+
+            const data =
+                await response.json();
+
+            console.log(data);
+
+            alert(
+                'Grada agregada'
+            );
+
+            form.reset();
+
+            cargarGradas();
+
+        } catch (error) {
+
+            console.log(error);
+        }
+    }
+);
+
+
+// ==========================
+// INICIAR
+// ==========================
+
 cargarColores();
+cargarGradas();
 initModal();
 
